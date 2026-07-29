@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tempahan Perkhidmatan Kenderaan</title>
+  <style>
+    :root {
+      --primary: #25D366; /* Warna WhatsApp */
+      --primary-dark: #128C7E;
+      --bg: #f4f6f9;
+      --card-bg: #ffffff;
+      --text: #333333;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 500px;
+      width: 100%;
+      background: var(--card-bg);
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 8px;
+      color: #111;
+    }
+
+    p.subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 0.9em;
+      margin-bottom: 25px;
+    }
+
+    .section-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+      font-size: 0.95em;
+      color: #444;
+    }
+
+    /* Pilihan Servis berbentuk Butang */
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .service-btn {
+      background: #f0f3f6;
+      border: 2px solid transparent;
+      border-radius: 12px;
+      padding: 15px 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 600;
+      font-size: 0.9em;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .service-btn:hover {
+      background: #e4e8ec;
+    }
+
+    .service-btn.active {
+      border-color: var(--primary-dark);
+      background: #e8f8ef;
+      color: var(--primary-dark);
+    }
+
+    .icon {
+      font-size: 1.5em;
+    }
+
+    /* Borang Input */
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85em;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #555;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.95em;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--primary-dark);
+    }
+
+    /* Butang Hantar WhatsApp */
+    .submit-btn {
+      width: 100%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .submit-btn:hover {
+      background: var(--primary-dark);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Tempahan Servis</h2>
+    <p class="subtitle">Sila pilih perkhidmatan dan isi maklumat di bawah.</p>
+
+    <!-- Pilihan Servis (Butang) -->
+    <div class="section-title">PILIH PERKHIDMATAN:</div>
+    <div class="services-grid">
+      <button type="button" class="service-btn active" onclick="selectService('Pembaharuan Cukai Jalan', this)">
+        <span class="icon">📄</span>
+        Pembaharuan Cukai Jalan
+      </button>
+
+      <button type="button" class="service-btn" onclick="selectService('Insuran Kenderaan', this)">
+        <span class="icon">🛡️</span>
+        Insuran Kenderaan
+      </button>
+
+      <button type="button" class="service-btn" onclick="selectService('Runner Puspakom', this)">
+        <span class="icon">🚗</span>
+        Runner Puspakom
+      </button>
+
+      <button type="button" class="service-btn" onclick="selectService('Pembayaran Saman JPJ', this)">
+        <span class="icon">📝</span>
+        Pembayaran Saman JPJ
+      </button>
+    </div>
+
+    <!-- Borang Maklumat -->
+    <form id="bookingForm" onsubmit="sendToWhatsApp(event)">
+      <div class="form-group">
+        <label for="nama">Nama Penuh:</label>
+        <input type="text" id="nama" placeholder="Contoh: Ahmad Bin Ali" required>
+      </div>
+
+      <div class="form-group">
+        <label for="plat">No. Plat Kenderaan:</label>
+        <input type="text" id="plat" placeholder="Contoh: W1234A" required style="text-transform: uppercase;">
+      </div>
+
+      <div class="form-group">
+        <label for="ic">No. Kad Pengenalan / IC:</label>
+        <input type="number" id="ic" placeholder="Contoh: 900101081234" required>
+      </div>
+
+      <div class="form-group">
+        <label for="catatan">Catatan / Lain-lain (Opsional):</label>
+        <textarea id="catatan" rows="3" placeholder="Sila nyatakan jika ada sebarang pertanyaan khas..."></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">
+        Hantar Tempahan ke WhatsApp 💬
+      </button>
+    </form>
+  </div>
+
+  <script>
+    // Tetapan asal servis pilihan
+    let selectedService = "Pembaharuan Cukai Jalan";
+
+    // Fungsi memilih servis dari butang
+    function selectService(serviceName, element) {
+      selectedService = serviceName;
+      
+      // Buang kelas 'active' dari semua butang
+      const buttons = document.querySelectorAll('.service-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      // Tambah kelas 'active' pada butang yang dipilih
+      element.classList.add('active');
+    }
+
+    // Fungsi menghantar mesej ke WhatsApp
+    function sendToWhatsApp(event) {
+      event.preventDefault();
+
+      const phone = "60185877889"; // Format nombor telefon Malaysia
+      const nama = document.getElementById('nama').value;
+      const plat = document.getElementById('plat').value.toUpperCase();
+      const ic = document.getElementById('ic').value;
+      const catatan = document.getElementById('catatan').value || "Tiada";
+
+      // Membina format mesej WhatsApp
+      const message = `Salam, saya nak buat tempahan perkhidmatan:%0A%0A` +
+                      `📌 *Servis:* ${selectedService}%0A` +
+                      `👤 *Nama:* ${nama}%0A` +
+                      `🚘 *No. Plat:* ${plat}%0A` +
+                      `🪪 *No. IC:* ${ic}%0A` +
+                      `📝 *Catatan:* ${catatan}%0A%0A` +
+                      `Mohon maklum balas / sebut harga. Terima kasih!`;
+
+      // Buka aplikasi WhatsApp
+      const whatsappURL = `https://wa.me/${phone}?text=${message}`;
+      window.open(whatsappURL, '_blank');
+    }
+  </script>
+
+</body>
+</html>
