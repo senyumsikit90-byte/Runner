@@ -226,7 +226,7 @@
     function sendToWhatsApp(event) {
       event.preventDefault();
 
-      const phone = "60185877889"; // Format nombor telefon Malaysia
+      const phone = "6010000000"; // Format nombor telefon Malaysia
       const nama = document.getElementById('nama').value;
       const plat = document.getElementById('plat').value.toUpperCase();
       const ic = document.getElementById('ic').value;
